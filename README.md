@@ -23,9 +23,8 @@ Este es un proyecto de dashboard interactivo, donde puedes visualizar datos y ej
      venv\Scripts\activate
 
 4. **Ejecutar la aplicación**:
-```bash
-python app.py
-
+   ```bash
+      python app.py
 
 
 ## Estructura de Archivos
