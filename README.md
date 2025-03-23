@@ -37,6 +37,13 @@ Este es un proyecto de dashboard interactivo, donde puedes visualizar datos y ej
       Cada docuemento con la temperatura que se ingrese a la base de datos debe tener este esquema. La aplicación no inserta datos de temperatura. Se debe hacer externamente.
 
       ![Captura de pantalla del Dashboard](images_readme/base_datos_fermentacion.PNG)
+
+
+   2. Para la sección de estanques de cocción, es lo mismo.
+      
+      ![Captura de pantalla del Dashboard](images_readme/coccion_input.PNG)
+
+      ![Captura de pantalla del Dashboard](images_readme/base_datos_coccion.PNG)
       
 
 ## Estructura de Archivos
