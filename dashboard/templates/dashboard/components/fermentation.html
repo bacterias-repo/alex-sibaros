@@ -1,0 +1,320 @@
+<section>
+    <h2>PLANTA DE FERMENTACIÓN</h2>
+    <p>Visualización de temperaturas de los fermentadores:</p>
+
+    <div id="temperatureContainer" class="tank-row">
+        <!-- Fermentador 1 -->
+        <div class="tank-container" id="batch1">
+            <div class="upper-row">
+                <img src="" id="imageBatch1" alt="Fermentador 1" width="200">
+                <h2 class="tank-header">BATCH N°1</h2>
+            </div>
+            <div class="info-container">
+                <p><strong>Producto:</strong> <span id="fermentador-1">--</span></p>
+                <p><strong>Código de serie:</strong> <span id="codigoFermentador-1">--</span></p>
+                <select id="productoSelect1">
+                    <option value="">Seleccionar Producto</option>
+                    <!-- Las opciones serán cargadas dinámicamente -->
+                </select>
+
+                <!-- Input para ingresar el código de serie -->
+                <input type="text" id="inputSerieFermentador1" placeholder="Ingrese código de serie">
+
+                <!-- Botón para actualizar producto y código de serie -->
+                <button onclick="actualizarProductoYSerie('fermentador-1')">Actualizar Producto y Código de Serie</button>
+            </div>
+            <div class="lower-row">
+                <div class="left-column">
+                    <img src="{{ url_for('dashboard.static', filename='images/tank.png') }}" alt="Fermentador 1" width="200">
+                    <div class="temp-bar">
+                        <div class="bar" id="bar1"></div>
+                    </div>
+                    <p><span id="temp1">-- °C</span></p>
+                </div>
+                <div class="right-column">
+                    <div class="info-box" id="fermentacion1">FERMENTACIÓN</div>
+                    <div class="info-box" id="colonizacion1">COLONIZACIÓN</div>
+                    <div class="info-box" id="reproduccion1">REPRODUCCIÓN</div>
+                    <div class="info-box" id="lactancia1">LACTANCIA</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fermentador 2 -->
+        <div class="tank-container" id="batch2">
+            <div class="upper-row">
+                <img src="" id="imageBatch2" alt="Fermentador 2" width="200">
+                <h2 class="tank-header">BATCH N°2</h2>
+            </div>
+            <div class="info-container">
+                <p><strong>Producto:</strong> <span id="fermentador-2">--</span></p>
+                <p><strong>Código de serie:</strong> <span id="codigoFermentador-2">--</span></p>
+                <select id="productoSelect2">
+                    <option value="">Seleccionar Producto</option>
+                    <!-- Las opciones serán cargadas dinámicamente -->
+                </select>
+
+                <!-- Input para ingresar el código de serie -->
+                <input type="text" id="inputSerieFermentador2" placeholder="Ingrese código de serie">
+
+                <!-- Botón para actualizar producto y código de serie -->
+                <button onclick="actualizarProductoYSerie('fermentador-2')">Actualizar Producto y Código de Serie</button>
+            </div>
+            <div class="lower-row">
+                <div class="left-column">
+                    <img src="{{ url_for('dashboard.static', filename='images/tank.png') }}" alt="Fermentador 2" width="200">
+                    <div class="temp-bar">
+                        <div class="bar" id="bar2"></div>
+                    </div>
+                    <p><span id="temp2">-- °C</span></p>
+                </div>
+                <div class="right-column">
+                    <div class="info-box" id="fermentacion2">FERMENTACIÓN</div>
+                    <div class="info-box" id="colonizacion2">COLONIZACIÓN</div>
+                    <div class="info-box" id="reproduccion2">REPRODUCCIÓN</div>
+                    <div class="info-box" id="lactancia2">LACTANCIA</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fermentador 3 -->
+        <div class="tank-container" id="batch3">
+            <div class="upper-row">
+                <img src="" id="imageBatch3" alt="Fermentador 3" width="200">
+                <h2 class="tank-header">BATCH N°3</h2>
+            </div>
+            <div class="info-container">
+                <p><strong>Producto:</strong> <span id="fermentador-3">--</span></p>
+                <p><strong>Código de serie:</strong> <span id="codigoFermentador-3">--</span></p>
+                <select id="productoSelect3">
+                    <option value="">Seleccionar Producto</option>
+                    <!-- Las opciones serán cargadas dinámicamente -->
+                </select>
+
+                <!-- Input para ingresar el código de serie -->
+                <input type="text" id="inputSerieFermentador3" placeholder="Ingrese código de serie">
+
+                <!-- Botón para actualizar producto y código de serie -->
+                <button onclick="actualizarProductoYSerie('fermentador-3')">Actualizar Producto y Código de Serie</button>
+            </div>
+            <div class="lower-row">
+                <div class="left-column">
+                    <img src="{{ url_for('dashboard.static', filename='images/tank.png') }}" alt="Fermentador 3" width="200">
+                    <div class="temp-bar">
+                        <div class="bar" id="bar3"></div>
+                    </div>
+                    <p><span id="temp3">-- °C</span></p>
+                </div>
+                <div class="right-column">
+                    <div class="info-box" id="fermentacion3">FERMENTACIÓN</div>
+                    <div class="info-box" id="colonizacion3">COLONIZACIÓN</div>
+                    <div class="info-box" id="reproduccion3">REPRODUCCIÓN</div>
+                    <div class="info-box" id="lactancia3">LACTANCIA</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fermentador 4 -->
+        <div class="tank-container" id="batch4">
+            <div class="upper-row">
+                <img src="" id="imageBatch4" alt="Fermentador 4" width="200">
+                <h2 class="tank-header">BATCH N°4</h2>
+            </div>
+            <div class="info-container">
+                <p><strong>Producto:</strong> <span id="fermentador-4">--</span></p>
+                <p><strong>Código de serie:</strong> <span id="codigoFermentador-4">--</span></p>
+                <select id="productoSelect4">
+                    <option value="">Seleccionar Producto</option>
+                    <!-- Las opciones serán cargadas dinámicamente -->
+                </select>
+
+                <!-- Input para ingresar el código de serie -->
+                <input type="text" id="inputSerieFermentador4" placeholder="Ingrese código de serie">
+
+                <!-- Botón para actualizar producto y código de serie -->
+                <button onclick="actualizarProductoYSerie('fermentador-4')">Actualizar Producto y Código de Serie</button>
+            </div>
+            <div class="lower-row">
+                <div class="left-column">
+                    <img src="{{ url_for('dashboard.static', filename='images/tank.png') }}" alt="Fermentador 4" width="200">
+                    <div class="temp-bar">
+                        <div class="bar" id="bar4"></div>
+                    </div>
+                    <p><span id="temp4">-- °C</span></p>
+                </div>
+                <div class="right-column">
+                    <div class="info-box" id="fermentacion4">FERMENTACIÓN</div>
+                    <div class="info-box" id="colonizacion4">COLONIZACIÓN</div>
+                    <div class="info-box" id="reproduccion4">REPRODUCCIÓN</div>
+                    <div class="info-box" id="lactancia4">LACTANCIA</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+// Actualiza el color de la barra según la temperatura
+function updateBarColor(barId, temp, min, max) {
+    const barElement = document.getElementById(barId);
+    if (temp >= max) {
+        barElement.style.backgroundColor = '#cc2a2a'; // Fuera del límite
+    } else if (temp > (max - 10)) {
+        barElement.style.backgroundColor = '#f3d354'; // Cerca del límite
+    } else {
+        barElement.style.backgroundColor = '#93c11e'; // Dentro del rango
+    }
+}
+
+// Obtiene la temperatura del fermentador por lote y batch
+async function fetchTemperatura(lote, batch) {
+    try {
+        const response = await fetch(`/api/get_temperaturas_fermentadores?lote=${lote}&batch=${batch}`);
+        if (!response.ok) throw new Error('Error al obtener la temperatura');
+        
+        const data = await response.json();
+        const temperatura = data.temperatura;
+
+        document.getElementById(`temp${batch}`).textContent = `${temperatura} °C`;
+
+        // Ajustar la barra de temperatura
+        const percentage = Math.max(0, Math.min((temperatura / 120) * 100, 100));
+        const bar = document.getElementById(`bar${batch}`);
+        bar.style.width = `${percentage}%`;
+
+        updateBarColor(`bar${batch}`, temperatura, 0, 120);
+    } catch (error) {
+        console.error('Error al obtener la temperatura:', error);
+
+ 	// Mostrar "NaN" en caso de error
+        document.getElementById(`temp${batch}`).textContent = `NaN`;
+
+        // Asegurar que la barra no tenga NaN y se vea vacía
+        const bar = document.getElementById(`bar${batch}`);
+        bar.style.width = `0%`;
+    }
+}
+
+let intervaloTemperaturas; 
+
+// Obtiene los lotes activos y activa los procesos correspondientes
+async function fetchLotesActivos() {
+    try {
+        const response = await fetch('/api/get_productos_en_batches');
+        if (!response.ok) throw new Error('Error en la respuesta de lotes activos');
+
+        const { etapas_procesos, imagenes_productos, batches_activos, lotes_activos, codigos_series, nombres_productos } = await response.json();
+
+        for (let i = 0; i < lotes_activos.length; i++) {
+            const lote = lotes_activos[i];
+            const batch = batches_activos[i];
+            const nombreProducto = nombres_productos[i];
+            const codigoSerie = codigos_series[i];
+            const imagen = imagenes_productos[i];
+
+            // Actualiza la imagen y la información del producto y código de serie
+            const imageElement = document.getElementById(`imageBatch${batch}`);
+            const batchElement = document.getElementById(`batch${batch}`);
+            if (imageElement) imageElement.src = imagen;
+
+            document.getElementById(`fermentador-${batch}`).textContent = nombreProducto;
+            document.getElementById(`codigoFermentador-${batch}`).textContent = codigoSerie;
+
+            // Activa el proceso correspondiente
+            const estado = etapas_procesos.fermentacion[i];
+            activateProcess(batch, estado);
+
+            // Obtiene la temperatura de cada lote
+            fetchTemperatura(lote, batch);
+        }
+
+        // Configura la actualización periódica de temperaturas
+        intervaloTemperaturas = setInterval(() => {
+            for (let i = 0; i < lotes_activos.length; i++) {
+                fetchTemperatura(lotes_activos[i], batches_activos[i]);
+            }
+        }, 5000);
+
+    } catch (error) {
+        console.error('Error al obtener los lotes activos:', error);
+    }
+}
+
+// Activa el proceso correspondiente según el estado
+function activateProcess(batch, estado) {
+    const stages = ['fermentacion', 'colonizacion', 'reproduccion', 'lactancia'];
+    stages.forEach((stage) => {
+        const element = document.getElementById(`${stage}${batch}`);
+        element.classList.toggle('active', estado === stage);
+    });
+}
+
+// Carga los productos desde la API y actualiza los selects
+async function cargarProductos() {
+    try {
+        const response = await fetch('/api/productos');
+        const productos = await response.json();
+
+        for (let i = 1; i <= 4; i++) {
+            const select = document.getElementById(`productoSelect${i}`);
+            select.innerHTML = '<option value="">Seleccionar Producto</option>';
+
+            productos.forEach(producto => {
+                const option = document.createElement('option');
+                option.value = producto;
+                option.textContent = producto;
+                select.appendChild(option);
+            });
+        }
+    } catch (error) {
+        console.error('Error al cargar los productos:', error);
+    }
+}
+
+// Actualiza el producto y el código de serie
+async function actualizarProductoYSerie(fermentadorId) {
+    const batchId = fermentadorId.charAt(fermentadorId.length - 1);  // Se asegura de tomar el número de lote.
+    const productoSelect = document.getElementById(`productoSelect${batchId}`);
+    const inputSerie = document.getElementById(`inputSerieFermentador${batchId}`);
+
+    const selectedProducto = productoSelect.value;
+    const codigoSerie = inputSerie.value;
+
+    if (!selectedProducto || !codigoSerie) {
+        alert("Por favor, seleccione un producto y complete el código de serie.");
+        return;
+    }
+
+    try {
+        const response = await fetch('/api/actualizar_producto_y_serie', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ fermentador: fermentadorId, producto: selectedProducto, codigo_serie: codigoSerie })
+        });
+
+        if (!response.ok) throw new Error('Error al actualizar producto y código de serie');
+        
+        const data = await response.json();
+        if (data.success) {
+            document.getElementById(`fermentador-${batchId}`).textContent = selectedProducto;
+            document.getElementById(`codigoFermentador-${batchId}`).textContent = codigoSerie;
+            alert("Producto y código de serie actualizados correctamente.");
+	    cargarProductos();
+	    if (intervaloTemperaturas) {clearInterval(intervaloTemperaturas);}
+	    fetchLotesActivos();
+        } else {
+            alert("No se pudo actualizar el producto y el código de serie.");
+        }
+    } catch (error) {
+        console.error('Error al enviar la solicitud de actualización:', error);
+    }
+}
+
+
+// Carga los productos y lotes activos al iniciar
+cargarProductos();
+fetchLotesActivos();
+</script>
+
+
+

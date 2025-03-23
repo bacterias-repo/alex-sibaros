@@ -1,0 +1,159 @@
+<section id="generar_reportes">
+    <form id="formulario_busqueda" action="#" method="GET">
+        <div class="form-group">
+            <label for="codigo_serie">Código de Serie:</label>
+            <input type="text" id="codigo_serie" name="codigo_serie" placeholder="Ingrese el código de serie">
+        </div>
+
+        <button type="submit">Buscar</button>
+    </form>
+
+    <div id="mensaje-error" style="display: none; color: red;">
+        <span></span>
+    </div>
+    
+    <div id="reporte-seccion" style="display: none;">
+        <div id="reporte-html" style="display: none;"></div>
+    </div>
+
+    <div style="height: 150px;"></div>
+</section>
+
+<script>
+let product_image_path_global = 'none';
+
+document.getElementById('formulario_busqueda').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const codigoSerie = document.getElementById('codigo_serie').value.trim();
+
+    if (codigoSerie === '') {
+        const mensajeError = document.getElementById('mensaje-error');
+        mensajeError.style.display = 'block';
+        mensajeError.querySelector('span').textContent = 'Por favor, digite el código de serie';
+        return;
+    }
+
+    const apiUrl = `/api/get_serie_data?codigo_serie=${encodeURIComponent(codigoSerie)}`;
+
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+            const reporteSeccion = document.getElementById('reporte-seccion');
+            const reporteHtml = document.getElementById('reporte-html');
+            const mensajeError = document.getElementById('mensaje-error');
+
+            mensajeError.style.display = 'none';
+            reporteSeccion.style.display = 'none';
+            reporteHtml.style.display = 'none';
+
+            if (data.existe) {
+		product_image_path_global = data.imagen_producto_path;
+		//console.log(data)
+
+                // Datos que serán enviados al servidor para renderizar el reporte
+                const resultado = {
+                    nombre_producto: data.nombre_producto || '',
+                    codigo_serie: data.codigo_serie || '',
+                    imagen_producto_path: data.imagen_producto_path || '',
+                    lote: data.lote || 'Sin lote',
+                    comentarios: data.comentarios || 'Sin comentarios',
+                    imagen_producto_path: data.imagen_producto_path || '',
+		    historic_data_fermentacion: data.historic_data_fermentacion,
+		    historic_data_coccion: data.historic_data_coccion
+                };
+
+		//console.log(resultado)
+
+                // Enviar los datos al servidor para renderizar la plantilla Jinja
+                fetch('/api/render_reporte', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(resultado)
+                })
+                .then(response => response.json())
+                .then(responseData => {
+                    // Mostrar la sección de reporte
+                    reporteSeccion.style.display = 'block';
+                    reporteHtml.style.display = 'block';
+                    
+                    // Insertar el HTML renderizado dentro de #reporte-html
+                    reporteHtml.innerHTML = responseData.reporteHtml;
+
+                    // Asignar el evento "click" para el botón de "Imprimir Reporte" de manera dinámica
+                    document.getElementById("imprimir-reporte").addEventListener("click", function () {
+                        console.log("imprimir reporte");
+
+                        const formData = new FormData();
+                        formData.append("nombre_producto", resultado.nombre_producto);
+                        formData.append("codigo_serie", resultado.codigo_serie);
+                        formData.append("lote", resultado.lote);
+                        formData.append("fecha_actual", new Date().toLocaleDateString());
+                        formData.append("notas", document.getElementById("form-texto").value);
+                        formData.append("comentario", document.getElementById("comentario").value);
+			formData.append("product_image_path_global", product_image_path_global);
+			formData.append("comentario", document.getElementById("comentario").value);
+			formData.append("historic_data_fermentacion", resultado.historic_data_fermentacion);
+                        formData.append("historic_data_coccion", resultado.historic_data_coccion);
+                        
+                        const imagen = document.getElementById("imagen-cargar").files[0];
+                        if (imagen) {
+                            formData.append("imagen", imagen);
+                        }
+
+                        fetch("/api/imprimir_reporte", {
+                            method: "POST",
+                            body: formData
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            const reporteWindow = window.open('', '_blank');
+        	            reporteWindow.document.write(data.reporteHtml);
+        		    reporteWindow.document.close();
+                        })
+                        .catch(error => {
+                            console.error("Error al enviar el reporte", error);
+                        });
+                    });
+                })
+                .catch(error => {
+                    console.error('Error al renderizar reporte:', error);
+                    const mensajeError = document.getElementById('mensaje-error');
+                    mensajeError.style.display = 'block';
+                    mensajeError.querySelector('span').textContent = 'Ocurrió un error al cargar el reporte.';
+                });
+            } else {
+                mensajeError.style.display = 'block';
+                mensajeError.querySelector('span').textContent = 'Código de serie no encontrado';
+                reporteHtml.style.display = 'none';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            const mensajeError = document.getElementById('mensaje-error');
+            mensajeError.style.display = 'block';
+            mensajeError.querySelector('span').textContent = 'Ocurrió un error al buscar el lote.';
+        });
+});
+
+// Delegar el evento de carga de la imagen en el body o en un contenedor superior
+document.body.addEventListener('change', function(event) {
+    if (event.target && event.target.id === 'imagen-cargar') {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                // Establecer la imagen cargada como la fuente de la imagen de vista previa
+                document.getElementById('imagen-preview').src = e.target.result;
+                // Mostrar el contenedor de la imagen cargada
+                document.getElementById('imagen-insertada').style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+});
+</script>
+
+

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('dashboard.static', filename='css/styles.css') }}">
+</head>
+<body>
+    <header>
+        <img src="{{ url_for('dashboard.static', filename='images/logo.png') }}" alt="Logo">
+        <h1>Sistema de Monitoreo y Trazabilidad de Temperaturas</h1>
+    </header>    
+    <main>
+	<h1> MONITOREO </h1>
+	{% include 'dashboard/components/fermentation.html' %}
+	{% include 'dashboard/components/cooking.html' %}
+
+	<h1> TRAZABILIDAD </h1>
+	{% include 'dashboard/components/filtros_fermentation.html' %}
+	{% include 'dashboard/components/filtros_coccion.html' %}
+
+	<h1> GENERACIÓN DE REPORTES </h1>
+	{% include 'dashboard/components/generar_reportes.html' %}
+    </main>
+    <script src="{{ url_for('dashboard.static', filename='js/scripts.js') }}"></script>
+</body>
+</html>

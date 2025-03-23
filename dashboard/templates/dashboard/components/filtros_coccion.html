@@ -1,0 +1,126 @@
+<section>
+    <h2>PLANTA DE COCCIÓN</h2>
+    <p>Visualización de temperaturas durante un período seleccionado:</p>
+
+    <!-- Formulario de filtros con un ID diferente -->
+    <form id="temperatureFilterFormCOOKING">
+        <label for="startDate">Seleccionar Rango de Fechas:</label>
+        <input type="date" id="startDate" name="startDate" required>
+        <input type="date" id="endDate" name="endDate" required>
+
+        <label for="estanque">Seleccionar Estanque:</label>
+        <select id="estanque" name="estanque" required>
+            <option value="1">Macerador</option>
+            <option value="2">Hervor</option>
+            <option value="3">Cocción</option>
+        </select>
+
+        <!-- Botón para mostrar datos de cocción -->
+        <button type="button" id="coccionButton">Actualizar</button>
+    </form>
+
+    <!-- Contenedor para el gráfico de cocción -->
+    <canvas id="coccionTempChart" width="800" height="400"></canvas>
+</section>
+
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('temperatureFilterFormCOOKING');
+            const ctx = document.getElementById('coccionTempChart').getContext('2d');
+            let chart;
+
+            async function fetchTemperatureData(startDate, endDate, estanque) {
+                try {
+                    const response = await fetch(`/api/coccion_filtro?startDate=${startDate}&endDate=${endDate}&estanque=${estanque}`);
+                    if (!response.ok) {
+                        throw new Error('Error en la respuesta de temperaturas');
+                    }
+                    const data = await response.json();
+                    displayTemperatureChart(data, estanque);
+                } catch (error) {
+                    console.error('Error al obtener los datos de temperatura:', error);
+                }
+            }
+
+            function displayTemperatureChart(data, estanque) {
+                if (chart) {
+                    chart.destroy();
+                }
+
+                let threshold1, threshold2;
+                if (estanque === '1') {
+                    threshold1 = 90; // Umbral para Macerador
+                    threshold2 = 100; // Umbral de alarma para Macerador
+                } else if (estanque === '2') {
+                    threshold1 = 95; // Umbral para Hervor
+                    threshold2 = 105; // Umbral de alarma para Hervor
+                } else if (estanque === '3') {
+                    threshold1 = 100; // Umbral para Cocción
+                    threshold2 = 110; // Umbral de alarma para Cocción
+                }
+
+                const labels = data.data.map(item => item.x);
+                const temperatures = data.data.map(item => item.y);
+
+                const backgroundColors = temperatures.map(temp => {
+                    if (temp > threshold2) {
+                        return 'rgba(255, 0, 0, 0.5)'; // Rojo
+                    } else if (temp > threshold1) {
+                        return 'rgba(255, 255, 0, 0.5)'; // Amarillo
+                    } else {
+                        return 'rgba(0, 123, 255, 0.1)'; // Azul por defecto
+                    }
+                });
+
+                chart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Temperaturas',
+                            data: temperatures,
+                            borderColor: '#007bff',
+                            backgroundColor: backgroundColors,
+                            tension: 0.1,
+                            pointRadius: 8,          // Tamaño de los puntos
+                            pointHoverRadius: 10     // Tamaño al pasar el ratón
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Fecha'
+                                }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Temperatura (°C)'
+                                }
+                            }
+                        }
+                    }
+                });
+
+                // Agregar la clase para mostrar el borde después de que la gráfica se haya creado
+                document.getElementById('coccionTempChart').classList.add('show-border');
+            }
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+            });
+
+            document.getElementById('coccionButton').addEventListener('click', function() {
+                const startDate = form.startDate.value;
+                const endDate = form.endDate.value;
+                const estanque = form.estanque.value;
+
+                fetchTemperatureData(startDate, endDate, estanque);
+            });
+        });
+</script>
+

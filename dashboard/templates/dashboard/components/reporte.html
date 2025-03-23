@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte</title>
+    <style>
+        .header_reporte {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: #f4f4f4;
+            border-bottom: 2px solid black;
+        }
+        .header_reporte img {
+            height: 90px;
+        }
+        .header_reporte .texto-central {
+            margin-top: 20px;
+            margin-left: 150px;
+            text-align: left;
+            flex-grow: 1;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .header_reporte .texto-pequeno {
+            margin-top: 100px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .seccion-imagen-formulario {
+            display: flex;
+            align-items: flex-start;
+            margin-top: 20px;
+        }
+        .seccion-imagen-formulario img {
+            height: 250px;
+        }
+        .seccion-imagen-formulario .texto-formulario {
+            display: flex;
+            flex-direction: column;
+            margin-left: 20px;
+        }
+        .texto-formulario input {
+            width: 100%;
+            height: 40px;
+            font-size: 16px;
+            padding-left: 10px;
+            margin-top: 10px;
+        }
+        .seccion-imagen-comentario {
+            display: flex;
+            align-items: flex-start;
+            margin-top: 20px;
+        }
+        .seccion-imagen-comentario .imagen-cargar {
+            display: flex;
+            flex-direction: column;
+            margin-right: 20px;
+        }
+        .seccion-imagen-comentario .comentario {
+            display: flex;
+            flex-direction: column;
+            width: 60%;
+        }
+    </style>
+</head>
+<body>
+    <div style="height: 55px;"></div>
+    
+    <div class="header_reporte">
+        <img src="{{ url_for('dashboard.static', filename='images/logo.png') }}" alt="Logo">
+        <div class="texto-central">
+            Reporte para {{ nombre_producto }} | Código de Serie: {{ codigo_serie }} | Lote: {{ lote }}
+        </div>
+        <div class="texto-pequeno">
+            <p>Reporte generado el {{ fecha_actual }}</p>
+        </div>
+    </div>
+
+    <div class="seccion-imagen-formulario">
+        <img src="{{ imagen_producto_path }}" alt="Imagen del producto">
+        <div class="texto-formulario">
+            <label for="form-texto">Añade notas al reporte (opcional):</label>
+            <input type="text" id="form-texto" name="form-texto" placeholder="Introduce tu texto aquí">
+        </div>
+    </div>
+
+    <div id="contenido">
+        <div class="seccion-imagen-comentario">
+            <div class="imagen-cargar">
+                <label for="imagen-cargar">Seleccionar imagen:</label>
+                <input type="file" id="imagen-cargar" name="imagen-cargar">
+                <div id="imagen-insertada" style="display:none;">
+                    <p>Imagen cargada:</p>
+                    <img id="imagen-preview" style="width: 250px;" alt="Vista previa">
+                </div>
+            </div>
+            <div class="comentario">
+                <label for="comentario">Comentario:</label>
+                <textarea id="comentario" name="comentario" rows="4" cols="50" placeholder="Escribe tu comentario aquí..."></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align: center;">
+        {% if historic_data_fermentacion %}
+        	<img src="{{ historic_data_fermentacion }}" alt="Imagen de Fermentación" style="width: 100%; max-width: 900px; margin-top: 20px;">
+        {% else %}
+        	<p>No hay datos de fermentación.</p>
+        {% endif %}
+
+        {% if historic_data_coccion %}
+        	<img src="{{ historic_data_coccion }}" alt="Imagen de Cocción" style="width: 100%; max-width: 900px; margin-top: 20px;">
+        {% else %}
+        	<p>No hay datos de cocción.</p>
+        {% endif %}
+    </div>
+
+    <div>
+        <button id="imprimir-reporte">Imprimir Reporte</button>
+    </div>
+</body>
+</html>

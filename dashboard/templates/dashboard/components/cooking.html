@@ -1,0 +1,244 @@
+<section>
+    <h2>PLANTA DE COCCIÓN</h2>
+    <p>Visualización de temperaturas de los procesos de cocción para: <span id="productoLote">--</span></p>
+
+    <div id="cookingTemperatureContainer" class="tank-row">
+        <!-- Estanque Hervor -->
+        <div class="tank-container" id="hervor">
+            <div class="upper-row">
+                <img src="" id="imageHervor" alt="Hervor" width="200">
+                <h2 class="tank-header">ESTANQUE HERVOR</h2>
+            </div>
+            <div class="info-container">
+                <p><strong>Producto:</strong> <span id="productoHervor">--</span></p>
+                <p><strong>Código de serie:</strong> <span id="codigoHervor">--</span></p>
+                <select id="productoSelectHervor">
+                    <option value="">Seleccionar Producto</option>
+                    <!-- Las opciones serán cargadas dinámicamente -->
+                </select>
+
+                <!-- Input para ingresar el código de serie -->
+                <input type="text" id="inputSerieHervor" placeholder="Ingrese código de serie">
+
+                <!-- Botón para actualizar producto y código de serie -->
+                <button onclick="actualizarProductoYSeriePlantaCoccion('hervor')">Actualizar Producto y Código de Serie</button>
+            </div>
+            <img src="{{ url_for('dashboard.static', filename='images/fermentation.png') }}" alt="Cocción 1" width="200">
+            <div class="temp-bar">
+                <div class="bar" id="barCoccion1"></div>
+            </div>
+            <p><span id="tempCoccion1">-- °C</span></p>
+        </div>
+
+        <!-- Estanque Macerador -->
+        <div class="tank-container" id="macerador">
+            <div class="upper-row">
+                <img src="" id="imageMacerador" alt="Macerador" width="200">
+                <h2 class="tank-header">ESTANQUE MACERADOR</h2>
+            </div>
+            <div class="info-container">
+                <p><strong>Producto:</strong> <span id="productoMacerador">--</span></p>
+                <p><strong>Código de serie:</strong> <span id="codigoMacerador">--</span></p>
+                <select id="productoSelectMacerador">
+                    <option value="">Seleccionar Producto</option>
+                    <!-- Las opciones serán cargadas dinámicamente -->
+                </select>
+
+                <!-- Input para ingresar el código de serie -->
+                <input type="text" id="inputSerieMacerador" placeholder="Ingrese código de serie">
+
+                <!-- Botón para actualizar producto y código de serie -->
+                <button onclick="actualizarProductoYSeriePlantaCoccion('macerador')">Actualizar Producto y Código de Serie</button>
+            </div>
+            <img src="{{ url_for('dashboard.static', filename='images/fermentation.png') }}" alt="Cocción 2" width="200">
+            <div class="temp-bar">
+                <div class="bar" id="barCoccion2"></div>
+            </div>
+            <p><span id="tempCoccion2">-- °C</span></p>
+        </div>
+
+        <!-- Estanque Cocción -->
+        <div class="tank-container" id="coccion">
+            <div class="upper-row">
+                <img src="" id="imageCoccion" alt="Cocción" width="200">
+                <h2 class="tank-header">ESTANQUE COCCIÓN</h2>
+            </div>
+            <div class="info-container">
+                <p><strong>Producto:</strong> <span id="productoCoccion">--</span></p>
+                <p><strong>Código de serie:</strong> <span id="codigoCoccion">--</span></p>
+                <select id="productoSelectCoccion">
+                    <option value="">Seleccionar Producto</option>
+                    <!-- Las opciones serán cargadas dinámicamente -->
+                </select>
+
+                <!-- Input para ingresar el código de serie -->
+                <input type="text" id="inputSerieCoccion" placeholder="Ingrese código de serie">
+
+                <!-- Botón para actualizar producto y código de serie -->
+                <button onclick="actualizarProductoYSeriePlantaCoccion('coccion')">Actualizar Producto y Código de Serie</button>
+            </div>
+            <img src="{{ url_for('dashboard.static', filename='images/fermentation.png') }}" alt="Cocción 3" width="200">
+            <div class="temp-bar">
+                <div class="bar" id="barCoccion3"></div>
+            </div>
+            <p><span id="tempCoccion3">-- °C</span></p>
+        </div>
+    </div>
+</section>
+
+<script>
+    let productosEnCoccion = []; // Para almacenar los productos obtenidos
+
+    function updateBarColor(barId, temp, min, max) {
+        const barElement = document.getElementById(barId);
+        if (!barElement) return;
+
+        const percentage = (temp - min) / (max - min) * 100;
+
+        if (percentage >= 100) {
+            barElement.style.backgroundColor = '#cc2a2a';
+        } else if (percentage > 80) {
+            barElement.style.backgroundColor = '#f3d354';
+        } else {
+            barElement.style.backgroundColor = '#93c11e';
+        }
+
+        barElement.style.width = `${percentage}%`;
+    }
+
+    let intervaloTemperaturasCoccion;
+
+    async function fetchCookingTemperatures() {
+        try {
+            let responseCoccion = await fetch('/api/get_productos_en_coccion');
+            if (!responseCoccion.ok) {
+                throw new Error('Error en la respuesta de cocción');
+            }
+            productosEnCoccion = await responseCoccion.json();
+
+            document.getElementById('imageHervor').src = "";
+            document.getElementById('imageMacerador').src = "";
+            document.getElementById('imageCoccion').src = "";
+
+            for (let producto of productosEnCoccion) {
+                let { codigo_serie, etapa, nombre_producto, imagen_producto_path } = producto;
+                imagen_producto_path = imagen_producto_path.replace(/['"]/g, '');
+
+                if (etapa === "hervor") {
+                    document.getElementById('imageHervor').src = imagen_producto_path;
+                    document.getElementById('productoHervor').textContent = nombre_producto;
+                    document.getElementById('codigoHervor').textContent = codigo_serie;
+                } else if (etapa === "macerador") {
+                    document.getElementById('imageMacerador').src = imagen_producto_path;
+                    document.getElementById('productoMacerador').textContent = nombre_producto;
+                    document.getElementById('codigoMacerador').textContent = codigo_serie;
+                } else if (etapa === "coccion") {
+                    document.getElementById('imageCoccion').src = imagen_producto_path;
+                    document.getElementById('productoCoccion').textContent = nombre_producto;
+                    document.getElementById('codigoCoccion').textContent = codigo_serie;
+                }
+            }
+
+            for (let producto of productosEnCoccion) {
+                let { codigo_serie, etapa, nombre_producto } = producto;
+                let url = `/api/get_temperaturas_coccion?producto=${encodeURIComponent(nombre_producto)}&codigo_serie=${encodeURIComponent(codigo_serie)}&etapa=${encodeURIComponent(etapa)}`;
+                
+                let responseTemperaturas = await fetch(url);
+                if (!responseTemperaturas.ok) {
+                    if (etapa === "hervor") {
+                        document.getElementById('tempCoccion1').textContent = `NaN`;
+                        updateBarColor('barCoccion1', 0, 0, 120);
+                    } else if (etapa === "macerador") {
+                        document.getElementById('tempCoccion2').textContent = `NaN`;
+                        updateBarColor('barCoccion2', 0, 0, 120);
+                    } else if (etapa === "coccion") {
+                        document.getElementById('tempCoccion3').textContent = `NaN`;
+                        updateBarColor('barCoccion3', 0, 0, 120);
+                    }
+                    continue;
+                }
+                let dataTemperaturas = await responseTemperaturas.json();
+                const temp = dataTemperaturas.temperatura || '--';
+                if (etapa === "hervor") {
+                    document.getElementById('tempCoccion1').textContent = `${temp} °C`;
+                    updateBarColor('barCoccion1', temp, 0, 120);
+                } else if (etapa === "macerador") {
+                    document.getElementById('tempCoccion2').textContent = `${temp} °C`;
+                    updateBarColor('barCoccion2', temp, 0, 120);
+                } else if (etapa === "coccion") {
+                    document.getElementById('tempCoccion3').textContent = `${temp} °C`;
+                    updateBarColor('barCoccion3', temp, 0, 120);
+                }
+            }
+        } catch (error) {
+            console.error('Error al obtener las temperaturas de cocción:', error);
+        }
+    }
+
+    function startTemperaturesInterval() {
+        intervaloTemperaturasCoccion = setInterval(fetchCookingTemperatures, 5000);
+    }
+
+    async function cargarProductosCoccion() {
+        try {
+            const response = await fetch('/api/productos');
+            const productos = await response.json();
+            
+            ['Coccion', 'Macerador', 'Hervor'].forEach(etapa => {
+                const select = document.getElementById(`productoSelect${etapa}`);
+                select.innerHTML = '<option value="">Seleccionar Producto</option>';
+                productos.forEach(producto => {
+                    const option = document.createElement('option');
+                    option.value = producto;
+                    option.textContent = producto;
+                    select.appendChild(option);
+                });
+            });
+        } catch (error) {
+            console.error('Error al cargar los productos:', error);
+        }
+    }
+
+    async function actualizarProductoYSeriePlantaCoccion(etapa) {
+        const productoSelect = document.getElementById(`productoSelect${etapa.charAt(0).toUpperCase() + etapa.slice(1)}`);
+        const inputSerie = document.getElementById(`inputSerie${etapa.charAt(0).toUpperCase() + etapa.slice(1)}`);
+        
+        const selectedProducto = productoSelect.value;
+        const codigoSerie = inputSerie.value;
+        
+        if (!selectedProducto || !codigoSerie) {
+            alert("Por favor, seleccione un producto y complete el código de serie.");
+            return;
+        }
+        
+        try {
+            const response = await fetch('/api/actualizar_producto_y_serie_planta_coccion', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ etapa, producto: selectedProducto, codigo_serie: codigoSerie })
+            });
+            
+            if (!response.ok) throw new Error('Error al actualizar producto y código de serie');
+            
+            const data = await response.json();
+            if (data.success) {
+                document.getElementById(`producto${etapa.charAt(0).toUpperCase() + etapa.slice(1)}`).textContent = selectedProducto;
+                document.getElementById(`codigo${etapa.charAt(0).toUpperCase() + etapa.slice(1)}`).textContent = codigoSerie;
+                alert("Producto y código de serie actualizados correctamente.");
+                if (intervaloTemperaturasCoccion) clearInterval(intervaloTemperaturasCoccion);
+                fetchCookingTemperatures();
+                startTemperaturesInterval();
+            } else {
+                alert("No se pudo actualizar el producto y el código de serie.");
+            }
+        } catch (error) {
+            console.error('Error al enviar la solicitud de actualización:', error);
+        }
+    }
+
+    cargarProductosCoccion();
+    fetchCookingTemperatures();
+    startTemperaturesInterval();
+</script>
+
+

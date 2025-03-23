@@ -1,0 +1,150 @@
+<section>
+    <h2>PLANTA DE FERMENTACIÓN</h2>
+    <p>Visualización de temperaturas durante un período seleccionado:</p>
+
+    <!-- Formulario de filtros -->
+    <form id="temperatureFilterFormFERMENTATION">
+        <label for="startDate">Seleccionar Rango de Fechas</label>
+        <input type="date" id="startDate" name="startDate" required>
+        <input type="date" id="endDate" name="endDate" required>
+        
+        <label for="fermentador">Seleccionar Batch:</label>
+        <select id="fermentador" name="fermentador">
+            <option value="1">Batch 1</option>
+            <option value="2">Batch 2</option>
+            <option value="3">Batch 3</option>
+            <option value="4">Batch 4</option>
+        </select>
+
+        <button type="button" id="fermentacionButton">Actualizar</button>
+    </form>
+
+    <canvas id="fermentacionTempChart" width="800" height="400"></canvas>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</section>
+
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('temperatureFilterFormFERMENTATION');
+            const ctx = document.getElementById('fermentacionTempChart').getContext('2d');
+            let chart;
+
+            async function fetchTemperatureData(startDate, endDate, fermentador) {
+                try {
+                    let response = await fetch(`/api/fermentadores_filtro?startDate=${startDate}&endDate=${endDate}&batch=${fermentador}`);
+                    if (!response.ok) {
+                        throw new Error('Error en la respuesta de temperaturas');
+                    }
+                    let data = await response.json();
+                    displayTemperatureChart(data);
+                } catch (error) {
+                    console.error('Error al obtener los datos de temperatura:', error);
+                }
+            }
+
+            function displayTemperatureChart(data) {
+                if (chart) {
+                    chart.destroy(); // Eliminar el gráfico anterior si existe
+                }
+
+                // Obtener todas las fechas únicas de todas las etapas
+                const allDates = [
+                    ...new Set([
+                        ...data.data.colonizacion.map(item => item.x),
+                        ...data.data.fermentacion.map(item => item.x),
+                        ...data.data.lactancia.map(item => item.x),
+                        ...data.data.reproduccion.map(item => item.x)
+                    ])
+                ];
+
+                // Crear las series de datos para cada etapa, con nulls donde no haya datos
+                const colonizacionData = allDates.map(date => {
+                    const item = data.data.colonizacion.find(item => item.x === date);
+                    return item ? item.y : null;
+                });
+
+                const fermentacionData = allDates.map(date => {
+                    const item = data.data.fermentacion.find(item => item.x === date);
+                    return item ? item.y : null;
+                });
+
+                const lactanciaData = allDates.map(date => {
+                    const item = data.data.lactancia.find(item => item.x === date);
+                    return item ? item.y : null;
+                });
+
+                const reproduccionData = allDates.map(date => {
+                    const item = data.data.reproduccion.find(item => item.x === date);
+                    return item ? item.y : null;
+                });
+
+                // Crear el gráfico
+                chart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: allDates, // Usamos todas las fechas combinadas
+                        datasets: [
+                            {
+                                label: 'Colonización',
+                                data: colonizacionData,
+                                borderColor: 'rgba(0, 123, 255, 1)', // Azul
+                                backgroundColor: 'rgba(0, 123, 255, 0.2)',
+                                tension: 0.1
+                            },
+                            {
+                                label: 'Fermentación',
+                                data: fermentacionData,
+                                borderColor: 'rgba(255, 165, 0, 1)', // Naranja
+                                backgroundColor: 'rgba(255, 165, 0, 0.2)',
+                                tension: 0.1
+                            },
+                            {
+                                label: 'Lactancia',
+                                data: lactanciaData,
+                                borderColor: 'rgba(0, 255, 0, 1)', // Verde
+                                backgroundColor: 'rgba(0, 255, 0, 0.2)',
+                                tension: 0.1
+                            },
+                            {
+                                label: 'Reproducción',
+                                data: reproduccionData,
+                                borderColor: 'rgba(255, 0, 0, 1)', // Rojo
+                                backgroundColor: 'rgba(255, 0, 0, 0.2)',
+                                tension: 0.1
+                            }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Fecha'
+                                }
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Temperatura (°C)'
+                                }
+                            }
+                        }
+                    }
+                });
+
+                // Agregar la clase para mostrar el borde después de que la gráfica se haya creado
+                document.getElementById('fermentacionTempChart').classList.add('show-border');
+            }
+
+            document.getElementById('fermentacionButton').addEventListener('click', function() {
+                const startDate = form.startDate.value;
+                const endDate = form.endDate.value;
+                const fermentador = form.fermentador.value;
+
+                fetchTemperatureData(startDate, endDate, fermentador);
+            });
+        });
+
+</script>
+
