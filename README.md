@@ -27,7 +27,10 @@ Este es un proyecto de dashboard interactivo, donde puedes visualizar datos y ej
       python app.py
 
 ## Funcionalidades principales
-   1. El usuario puede modificar el producto y código de serie de cada uno de los cuatro Batch
+   1. El usuario puede modificar el producto y código de serie
+
+      **Para la sección de fermentación**
+
       ![Captura de pantalla del Dashboard](images_readme/fermentacion_input.PNG)
 
       La pantalla mostrará NaN y la barra de temperatura vacia hasta que se ingrese a la base de datos información de ese Producto, Código de serie y Lote
@@ -39,12 +42,29 @@ Este es un proyecto de dashboard interactivo, donde puedes visualizar datos y ej
       ![Captura de pantalla del Dashboard](images_readme/base_datos_fermentacion.PNG)
 
 
-   2. Para la sección de estanques de cocción, es lo mismo.
+      **Para la sección de estanques de cocción, es lo mismo.**
       
       ![Captura de pantalla del Dashboard](images_readme/coccion_input.PNG)
 
       ![Captura de pantalla del Dashboard](images_readme/base_datos_coccion.PNG)
       
+
+
+   1. El usuario puede visualizar le histórico de las temperaturas.
+
+      **Para la sección de fermentación**
+
+      Se debe seleccionar un rango de fecha y el batch. La visualización es de los productos que están activos en los batch.
+
+      ![Captura de pantalla del Dashboard](images_readme/filtro_fermentacion.PNG)
+
+
+      **Para la sección de estanques de cocción, es lo mismo.**
+      
+      Se debe seleccionar un rango de fecha y el estanque. La visualización es de los productos que están activos en los estanques de coccion.
+      
+      ![Captura de pantalla del Dashboard](images_readme/coccion_input.PNG)
+
 
 ## Estructura de Archivos
 
