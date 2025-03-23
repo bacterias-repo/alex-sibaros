@@ -50,7 +50,7 @@ Este es un proyecto de dashboard interactivo, donde puedes visualizar datos y ej
       
 
 
-   1. El usuario puede visualizar le histórico de las temperaturas.
+   2. El usuario puede visualizar le histórico de las temperaturas.
 
       **Para la sección de fermentación**
 
@@ -64,6 +64,18 @@ Este es un proyecto de dashboard interactivo, donde puedes visualizar datos y ej
       Se debe seleccionar un rango de fecha y el estanque. La visualización es de los productos que están activos en los estanques de coccion.
       
       ![Captura de pantalla del Dashboard](images_readme/coccion_input.PNG)
+
+
+    3. Generación de reportes.
+
+      El usuario debe seleccionar un código de serie y si este existe en la base de datos de históricos, se mostrará la información.
+      
+
+      ![Captura de pantalla del Dashboard](images_readme/imprimir_reporte_0.PNG)
+
+      ![Captura de pantalla del Dashboard](images_readme/imprimir_reporte.PNG)
+
+      ![Captura de pantalla del Dashboard](images_readme/generacion_reportes_1.PNG)
 
 
 ## Estructura de Archivos
