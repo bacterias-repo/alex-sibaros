@@ -16,6 +16,16 @@ Este es un proyecto de dashboard interactivo, donde puedes visualizar datos y ej
    ```bash
    python -m venv venv
 
+3. **Activar el entorno virtual**:
+- **Windows**:
+  ```bash
+     python -m venv venv
+     venv\Scripts\activate
+
+4. **Ejecutar la aplicación**:
+```bash
+python app.py
+
 
 
 ## Estructura de Archivos
