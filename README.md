@@ -26,6 +26,8 @@ Este es un proyecto de dashboard interactivo, donde puedes visualizar datos y ej
    ```bash
       python app.py
 
+## Flujo del sistema
+   1. 
 
 ## Estructura de Archivos
 
@@ -50,4 +52,7 @@ dashboard/
 │       └── home/
 ├── routes.py
 └── app.py
+
+
+
 
