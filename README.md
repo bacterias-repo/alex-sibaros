@@ -15,3 +15,30 @@ Este es un proyecto de dashboard interactivo, donde puedes visualizar datos y ej
    Para asegurarte de que las dependencias no afecten a otros proyectos en tu máquina, se recomienda crear un entorno virtual. En tu terminal, navega al directorio donde está el proyecto y ejecuta:
    ```bash
    python -m venv venv
+
+
+
+## Estructura de Archivos
+
+```plaintext
+dashboard/
+├── static/
+│   ├── css/
+│   │   └── styles.css
+│   ├── images/
+│   └── js/
+│       └── scripts.js
+├── templates/
+│   └── dashboard/
+│       ├── components/
+│       │   ├── cooking/
+│       │   ├── fermentation/
+│       │   ├── filtros_coccion/
+│       │   ├── filtros_fermentacion/
+│       │   ├── generar_reportes/
+│       │   ├── reporte/
+│       │   └── reporte_imprimir/
+│       └── home/
+├── routes.py
+└── app.py
+
