@@ -26,8 +26,13 @@ Este es un proyecto de dashboard interactivo, donde puedes visualizar datos y ej
    ```bash
       python app.py
 
-## Flujo del sistema
-   1. 
+## Funcionalidades principales
+   1. El usuario puede modificar el producto y código de serie de cada uno de los cuatro Batch
+      ![Captura de pantalla del Dashboard](images_readme/fermentacion_input.PNG)
+
+      La pantalla mostrará NaN y la barra de temperatura vacia hasta que se ingrese a la base de datos información de ese Producto, Código de serie y Lote
+
+      ![Captura de pantalla del Dashboard](images_readme/fermentacion_input_2.PNG)
 
 ## Estructura de Archivos
 
