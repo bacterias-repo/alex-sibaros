@@ -80,7 +80,7 @@ Este es un proyecto de dashboard interactivo, donde puedes visualizar datos y ej
 
       ![Captura de pantalla del Dashboard](images_readme/imprimir_reporte.PNG)
 
-
+## NOTA: Cualquier funcionalidad adicional que no se mencione explícitamente en este documento está fuera de alcance del proyecto.
 
 
 ## Estructura de Archivos
