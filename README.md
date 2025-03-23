@@ -66,16 +66,21 @@ Este es un proyecto de dashboard interactivo, donde puedes visualizar datos y ej
       ![Captura de pantalla del Dashboard](images_readme/coccion_input.PNG)
 
 
-    3. Generación de reportes.
+3. Generación de reportes.
 
-      El usuario debe seleccionar un código de serie y si este existe en la base de datos de históricos, se mostrará la información.
-      
+   El usuario debe ingresar un código de serie que exista en las bases de datos antes mostradas.
+   
+      ![Captura de pantalla del Dashboard](images_readme/generacion_reportes_1.PNG)
+
+   Sólo se peude ingresar una imagen y una nota. Además de comentarios.
 
       ![Captura de pantalla del Dashboard](images_readme/imprimir_reporte_0.PNG)
 
+   Para imprimir el reporte, simplemente se hace imprimir en el explorador.
+
       ![Captura de pantalla del Dashboard](images_readme/imprimir_reporte.PNG)
 
-      ![Captura de pantalla del Dashboard](images_readme/generacion_reportes_1.PNG)
+
 
 
 ## Estructura de Archivos
